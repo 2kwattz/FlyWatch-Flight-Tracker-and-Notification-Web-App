@@ -21,10 +21,12 @@ This is a flight tracker & notification sender from a planespotter to planespott
 Prepare for the Lima Oscar November Golf End of Time. Over.
 
 
-#### Technology Stack ####
+### Technology Stack ####
 
 #### HTML,CSS 
 #### Javascript
 #### NodeJs 
 #### Mongodb Database
 ####  Heroku Cloud
+
+#### Python : For CLI based testing version of the core functionalities
