@@ -7,12 +7,10 @@ Work on Python CLI based script will start first as a prototype for the web appl
 
 ### CORE PURPOSE
 
-The Tango aim of this project is to create a program that will alert plane spotters of their favourite aircrafts and potentially providing its Intel location via an automated call as well as other means such 
-as emails and asking them to reach the photographing spot before the ETA of the military jet. Some military planes such as the Charlie 17s have shorter stint of maximum 2 hours before scraming at other airforce stations.
-For Military Aviation enthusiasts this could be a huge setback as I myself missed few of my spotting sessions for this simple reason.
+The Tango aim of this project is to create a program that will provide critical intelligence via automated calls and emails to plane spotters of their favourite aircrafts and potentially providing its  legally trackable location Intel via an automated calls and emails prompting spotters to position themselves at the designated photographing spot before the estimated time of arrival (ETA) of the military jet. It's crucial to note that certain military aircraft, such as the Charlie 17s, have a limited operational window of maximum 2 hours before they are scrambled at other air force stations. For Military Aviation enthusiasts, this limitation poses a significant setback, as it has personally led to missed spotting opportunities. 
 
 That is : Most of the military aircrafts have negative contact in some of the fight radar apps. So If you are not present at the right time, right place with your right camera settings .
-You will not get the perfect shot. Airforce works in secrecy, Most of the best things such as when Sierra Echo Papa Echo Charlie Alpha Tango Jaguar fighterjet visited Vadodara happened quite unexpectedly
+You will not get the perfect shot. Airforce works in secrecy, Most of the best things such as when  tally 4 SEPECAT Jaguar fighterjets visited Vadodara happened quite unexpectedly
 Some of these rare jets are visible on one platform but not on other and vice versa. As a result, It is extremely difficult to predict its ETA as well.
 
 Some of these jets arrive once in 8 months to max to max 6 years, And not every planespotter has time to hook up to Foxtrot Romeo Two Four,Radarbox, ADBS Exchange 24x7. 
