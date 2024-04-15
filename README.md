@@ -13,7 +13,7 @@ That is : Most of the military aircrafts have negative contact in some of the fi
 You will not get the perfect shot. Airforce works in secrecy, Most of the best things such as when  tally 4 SEPECAT Jaguar fighterjets visited Vadodara happened quite unexpectedly
 Some of these rare jets are visible on one platform but not on other and vice versa. As a result, It is extremely difficult to predict its ETA as well.
 
-Some of these jets arrive once in 8 months to max to max 6 years, And not every planespotter has time to hook up to Foxtrot Romeo Two Four,Radarbox, ADBS Exchange 24x7. 
+Some of these jets arrive once in 8 months to max to max 6 years, And not every planespotter has time to hook up to FR24,Radarbox, ADBS Exchange 24x7. 
 Also 6 years is a very long time for a fellow planespotter to witness his aircraft girlfriend with its full mighty engines roaring, 7000 RPM taking off after such a long time.
 
 This is a flight tracker & notification sender from a planespotter to planespotters for planespotting! We Got This.
