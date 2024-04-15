@@ -2,3 +2,11 @@
 
 ## UNDER DEVELOPMENT
 Track any fight with the help of ICAO Code. Get Call and Email based notification for your favourite flights for Civilian and MIlitary aircrafts such as C17s, il76s etc for our fellow planespotters.
+
+#### Technology Stack ####
+
+### HTML,CSS 
+### Javascript
+### NodeJs 
+### Mongodb Database
+### Heroku Cloud
