@@ -6,7 +6,7 @@ Work on Python CLI based script will start first as a prototype for the web appl
 
 ### CORE PURPOSE
 
-CORE : The Core aim of this project is to create a program that will alert plane spotters of their favourite aircrafts and potentially informing 
+The Core aim of this project is to create a program that will alert plane spotters of their favourite aircrafts and potentially informing 
 them via an automated call as well as other means such as emails. Some military planes such as the C17s have shorter stint of maximum 2 hours at other
 airforce stations. For Military Aviation enthusiasts this could be a huge setback as I myself missed few of my spotting sessions for a simple reason
 
