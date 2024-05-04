@@ -39,7 +39,10 @@ VUAUL = C17("C17","VUAUL","India")
 # Location
 
 # Keeping a static endpoint temporarily
-endpoint = "https://www.radarbox.com/@21.73193,73.27099,z8"
+
+# Endpoints
+flight_map = "https://www.radarbox.com/@21.73193,73.27099,z8"
+flight_history = ''
 
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -50,7 +53,7 @@ driver = webdriver.Chrome(options=chrome_options)
 # Setting up user agent
 user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
 chrome_options.add_argument(f"user-agent={user_agent}")
-driver.get(endpoint)
+driver.get(flight_map)
 page_source = driver.page_source
 print(page_source)
 soup = BeautifulSoup(page_source, 'html.parser')
