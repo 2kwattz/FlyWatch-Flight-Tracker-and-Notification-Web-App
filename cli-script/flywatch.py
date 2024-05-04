@@ -11,7 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
-
 api_sources = {
     'ADBS_EXCHANGE' : '',
     'RADARBOX' : 'https://www.radarbox.com/',
@@ -43,8 +42,6 @@ C17_instances = [VUAUA,VUAUB,VUAUD,VUAUH,VUAUJ,VUAUK,VUAUL]
 
 # Keeping a static endpoint temporarily
 
-
-
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
@@ -62,10 +59,17 @@ for instances in C17_instances:
     flight_history = f'https://www.radarbox.com/data/flights/VUAU{reg}'
     print(flight_history)
     driver.get(flight_history)
-
+   
+    wait = WebDriverWait(driver, 5)
+    response = driver.page_source
+    soup = BeautifulSoup(response, 'html.parser')
+    flightHistorySectionClass = "sc-7jy3gr-3 icdnfC"
+    # aircraft_of_interest_history = soup.find(class_= flightHistorySectionClass)
+aircraft_of_interest_history = wait.until(EC.presence_of_element_located((By.CLASS_NAME, flightHistorySectionClass)))
+print(aircraft_of_interest_history)
 driver.get(flight_map)
-page_source = driver.page_source
+
 # print(page_source)
-soup = BeautifulSoup(page_source, 'html.parser')
-aircraft_of_interest = soup.find(id='#')
+
+# aircraft_of_interest = soup.find(id='#')
 
