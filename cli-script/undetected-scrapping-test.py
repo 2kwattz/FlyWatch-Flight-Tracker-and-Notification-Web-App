@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 
 # Initialize WebDriver
 driver = webdriver.Chrome()
-
-# Navigate to a webpage
 driver.get("https://www.radarbox.com/data/flights/VUAUB")
 
 # Find an element on the page to move the mouse to
@@ -16,7 +14,6 @@ time.sleep(2)
 soup = BeautifulSoup(response, 'html.parser')
 print(soup)
 
-# Define a list of actions to perform
 actions = ActionChains(driver)
 
 # Randomize mouse movements and clicks
@@ -34,6 +31,5 @@ for _ in range(5):
     
     # Pause execution for a random duration (0.5 to 2 seconds)
     time.sleep(random.uniform(0.5, 2))
-
-# Close the WebDriver
+    
 driver.quit()
