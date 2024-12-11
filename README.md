@@ -23,8 +23,9 @@ Prepare for the Lima Oscar November Golf End of Time. Over.
 
 ### Technology Stack ####
 
-#### PYTHON DJANGO SERVER 
+#### Python based DjangoSERVER 
 #### C++ based ESP8266 Microcontroller's server for Buzzer Listener.
+#### Twilio API Based VoIP Call Alert
 #### React Native based Mobile Application frontend for log tracking and more 
 #### SQLLite Database
 ####  Home Server + Static IP for Port forwarding
