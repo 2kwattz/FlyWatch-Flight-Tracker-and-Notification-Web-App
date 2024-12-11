@@ -23,10 +23,10 @@ Prepare for the Lima Oscar November Golf End of Time. Over.
 
 ### Technology Stack ####
 
-#### HTML,CSS 
-#### Javascript
-#### NodeJs 
-#### Mongodb Database
-####  Heroku Cloud
+#### PYTHON DJANGO SERVER 
+#### C++ based ESP8266 Microcontroller's server for Buzzer Listener.
+#### React Native based Mobile Application frontend for log tracking and more 
+#### SQLLite Database
+####  Home Server + Static IP for Port forwarding
 
 #### Python : For CLI based testing version of the core functionalities
