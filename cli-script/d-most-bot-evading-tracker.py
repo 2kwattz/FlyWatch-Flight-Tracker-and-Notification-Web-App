@@ -10,11 +10,29 @@ import math
 import os
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
+import datetime
 
 
+# --------------------------------------------
+# Bot Evading Tactics
+# --------------------------------------------
 
+# Description:
+# Anti Bot evading tactics are implemented to prevent anti bot mechanisms from detecting  
+# our web scrapping so that we can know the aircraft movements every 15 minutes without 
+# raising flags
 
-# User Agents
+# --------------------------------------------
+# User Agents Randomisation Data
+# --------------------------------------------
+
+# Description:
+# User Agent randomisation is used to mask and vary the identity of requests made 
+# to a server by simulating requests from different browsers or devices. This tactic 
+# helps in preventing detection and blocking by server-side filters or security systems. 
+# It ensures anonymity, evasion of detection mechanisms, and circumvents restrictions 
+# based on known patterns of user agents.
+
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
@@ -55,85 +73,136 @@ USER_AGENTS = [
     "Mozilla/5.0 (Linux; Android 8.0; SM-G950F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Mobile Safari/537.36"
 ]
 
-# Referer List to fool the Bot Detection Mechanism 
+# --------------------------------------------
+# Fetching Current Month and Year
+# --------------------------------------------
 
-# REFERER_LIST = [
-#     "https://www.bing.com/search?q=airnav+radar",
-#     "https://www.airlinegeeks.com/",
-#     "https://www.bing.com/search?q=C-17+tracking+registrations",
-#     "https://www.google.com/search?q=C-17+registration+tracking",
-#     "https://twitter.com/FlightGlobal",
-#     "https://www.google.com/search?q=C-17+aircraft+tracking",
-#     "https://search.yahoo.com/search?p=C-17+aircraft+tracking",
-#     "https://www.google.com/search?q=C-17+airbase+movements",
-#     "https://www.lockheedmartin.com/en/capabilities/c-17-globemaster-iii.html",
-#     "https://www.google.com/search?q=C-17+registration+lookup",
-#     "https://twitter.com/search?q=C-17+registration+tracking",
-#     "https://twitter.com/search?q=military+aircraft+C-17",
-#     "https://www.qwant.com/?q=C-17+tracking",
-#     "https://startpage.com/sp/search?q=C-17+aircraft+tracking",
-#     "https://www.ecosia.org/search?q=C-17+movements",
-#     "https://www.search.com/search?q=C-17+airbase+movements",
-#     "https://twitter.com/aviationdaily",
-#     "https://twitter.com/DefenseNews",
-#     "https://duckduckgo.com/?q=C-17+registration+tracking",
-#     "https://www.aviationweek.com/",
-#     "https://duckduckgo.com/?q=C-17+aircraft+tracking",
-#     "https://twitter.com/search?q=C-17+aircraft+tracking",
-#     "https://duckduckgo.com/?q=track+C-17+registration",
-#     "https://search.yahoo.com/search?p=C-17+registration+tracking+Indian+Air+Force",
-#     "https://duckduckgo.com/",
-#     "https://www.facebook.com/",
-# ]
+# Description:
+# Fetching the current month and year for time modifier keyword for HTTP Header Referer
+# which will create an impression of more 'natural' browsing keywords pattern in the HTTP Header's referer
+# and Origin
+
+today = datetime.datetime.now()
+current_month_number = today.month
+current_month_name = today.strftime("%B")  # Full month name
+current_year = today.year
+
+
+# --------------------------------------------
+# Keyword Configuration Data
+# --------------------------------------------
+
+# Description:
+# This section contains arrays of core keywords, intent modifiers, time modifiers, 
+# and location-based keywords. These keywords are randomly combined to dynamically 
+# generate search strings. This randomisation technique prevents predictable patterns, 
+# making bot detection harder and improving query versatility by simulating varied 
+# search behaviors and contexts.
+
+core_keywords = ["C-17", "military aircraft", "aircraft", "Globemaster", "C17 Globemaster", "Jet", "Indian Air Force", "Flight", "IAF", "C17", "Transport Plane"]
+intent_modifiers = ["registration", "tracking", "monitoring", "flightpath", "movements", "air traffic", "track", "airspace", "update"]
+time_modifiers = ["this week", "today", "history", "last 24 hours", "recent", "yesterday", datetime.datetime.now().strftime("%B"), str(datetime.datetime.now().year), "24 hours"]
+location_keywords = ["Near Me", "India", "Bharat", "Gujarat", "Asia", "Tamil Nadu", "Jammu", "Kashmir", "Ladakh", "Rajasthan", "Kerala", "United States", "US"]
+
+
+# --------------------------------------------
+# Referer URL Configuration Data
+# --------------------------------------------
+
+# Description:
+# This section defines a list of referer objects containing search engine URLs and their respective domains. 
+# These URLs are dynamically used to randomize search patterns and simulate searches from different 
+# sources. This randomization enhances variability in query requests and helps evade detection by 
+# mimicking legitimate user traffic originating from various popular search engines.
 
 REFERER_OBJECTS = [
-    {"url": "https://www.bing.com/search?q=airnav+radar", "domain": "https://www.bing.com"},
-    {"url": "https://www.airlinegeeks.com/", "domain": "https://www.airlinegeeks.com"},
-    {"url": "https://www.bing.com/search?q=C-17+tracking+registrations", "domain": "https://www.bing.com"},
-    {"url": "https://www.google.com/search?q=C-17+registration+tracking", "domain": "https://www.google.com"},
-    {"url": "https://twitter.com/FlightGlobal", "domain": "https://twitter.com"},
-    {"url": "https://www.google.com/search?q=C-17+aircraft+tracking", "domain": "https://www.google.com"},
-    {"url": "https://search.yahoo.com/search?p=C-17+aircraft+tracking", "domain": "https://search.yahoo.com"},
-    {"url": "https://www.google.com/search?q=C-17+airbase+movements", "domain": "https://www.google.com"},
-    {"url": "https://www.lockheedmartin.com/en/capabilities/c-17-globemaster-iii.html", "domain": "https://www.lockheedmartin.com"},
-    {"url": "https://www.google.com/search?q=C-17+registration+lookup", "domain": "https://www.google.com"},
-    {"url": "https://twitter.com/search?q=C-17+registration+tracking", "domain": "https://twitter.com"},
-    {"url": "https://twitter.com/search?q=military+aircraft+C-17", "domain": "https://twitter.com"},
-    {"url": "https://www.qwant.com/?q=C-17+tracking", "domain": "https://www.qwant.com"},
-    {"url": "https://startpage.com/sp/search?q=C-17+aircraft+tracking", "domain": "https://startpage.com"},
-    {"url": "https://www.ecosia.org/search?q=C-17+movements", "domain": "https://www.ecosia.org"},
-    {"url": "https://www.search.com/search?q=C-17+airbase+movements", "domain": "https://www.search.com"},
-    {"url": "https://twitter.com/aviationdaily", "domain": "https://twitter.com"},
-    {"url": "https://twitter.com/DefenseNews", "domain": "https://twitter.com"},
-    {"url": "https://duckduckgo.com/?q=C-17+registration+tracking", "domain": "https://duckduckgo.com"},
-    {"url": "https://www.aviationweek.com/", "domain": "https://www.aviationweek.com"},
-    {"url": "https://duckduckgo.com/?q=C-17+aircraft+tracking", "domain": "https://duckduckgo.com"},
-    {"url": "https://twitter.com/search?q=C-17+aircraft+tracking", "domain": "https://twitter.com"},
-    {"url": "https://duckduckgo.com/?q=track+C-17+registration", "domain": "https://duckduckgo.com"},
-    {"url": "https://search.yahoo.com/search?p=C-17+registration+tracking+Indian+Air+Force", "domain": "https://search.yahoo.com"},
-    {"url": "https://duckduckgo.com/", "domain": "https://duckduckgo.com"},
-    {"url": "https://www.facebook.com/", "domain": "https://www.facebook.com"},
+    {"url": "https://www.bing.com/search?q={query}", "domain": "https://www.bing.com"},
+    {"url": "https://www.google.com/search?q={query}", "domain": "https://www.google.com"},
+    {"url": "https://search.yahoo.com/search?p={query}", "domain": "https://search.yahoo.com"},
+    {"url": "https://duckduckgo.com/?q={query}", "domain": "https://duckduckgo.com"},
+    {"url": "https://www.ecosia.org/search?q={query}", "domain": "https://www.ecosia.org"},
 ]
 
+REFERER_OBJECTS = [
+    {"url": "https://www.bing.com/search?q={query}", "domain": "https://www.bing.com"},
+    {"url": "https://www.google.com/search?q={query}", "domain": "https://www.google.com"},
+    {"url": "https://search.yahoo.com/search?p={query}", "domain": "https://search.yahoo.com"},
+    {"url": "https://duckduckgo.com/?q={query}", "domain": "https://duckduckgo.com"},
+    {"url": "https://www.ecosia.org/search?q={query}", "domain": "https://www.ecosia.org"},
+]
+
+def weighted_random_choice(array):
+    """Helper for selecting random elements."""
+    return random.choice(array)
+
+
+def generate_search_query():
+    """
+    Generates a dynamic search query based on random combinations of keywords.
+    """
+    core = weighted_random_choice(core_keywords)
+    intent = weighted_random_choice(intent_modifiers)
+    time = weighted_random_choice(time_modifiers)
+    location = weighted_random_choice(location_keywords)
+
+    # Create contextually valid combinations
+    if random.random() > 0.5:
+        # Case 1: Core + Intent + Time
+        search_term = f"{core} {intent} {time}"
+    else:
+        # Case 2: Core + Intent + Location + Time
+        search_term = f"{core} {intent} {location} {time}"
+
+    # Sanitize/URL-encode query (basic encoding)
+    search_term = search_term.replace(" ", "+")
+    print(f"Generated Search Query: {search_term}")
+    return search_term
+
+def print_stylized_header():
+    # Green border escape code
+    GREEN = "\033[32m"
+    RESET = "\033[0m"
+    
+    border = GREEN + "+" + "=" * 70 + "+" + RESET
+    title = "🚀 C-17 Aircraft Movement Detection Script 🚀"
+    author = "Code by Roshan Bhatia"
+    ig_handle = "IG: @2kwattz"
+    
+    # Print the header with green border only
+    print("\n")
+    print(border)
+    print(f"| {title.center(70)} |")
+    print("|" + " " * 72 + "|")
+    print(f"| {author.center(70)} |")
+    print(f"| {ig_handle.center(70)} |")
+    print(border)
+    print("\n")
+
+
+print_stylized_header()
 
 def get_random_referer_and_origin():
     selected = random.choice(REFERER_OBJECTS)
     referer_url = selected["url"]  # URL for Referer
     origin_domain = selected["domain"]  # Domain for Origin
 
-    print(f"Random Referer Generated {referer_url} \n Coressponding Domain {origin_domain}")
+    print(f"Random HTTPS Header Referer & Origin Generated {referer_url} {origin_domain}.\n")
+    print("Random User Agent String Generated\n")
     return referer_url, origin_domain
 
-
-
 # HTTPS Headers for Scrapping request
+
+
 
 def generateHeaders():
        
        referer, origin = get_random_referer_and_origin()
+       query = generate_search_query()
+       selected_referer_template = random.choice(REFERER_OBJECTS)
+       referer_url = selected_referer_template["url"].replace("{query}", query)
        HEADERS = {
         "User-Agent": random.choice(USER_AGENTS), # Randomize User-Agent
-        "Referer": referer,  # Randomize the Referer
+        "Referer": referer_url,  # Randomize the Referer
         # "Accept-Language":  # Coz I need english
         "Accept-Language": random.choice(["en-US,en;q=0.9", "en-GB,en;q=0.8", "en-AU,en;q=0.7"]),
         "DNT": str(random.choice([0,1])), # DNT Really Doesnt matter
@@ -142,4 +211,8 @@ def generateHeaders():
         "Cache-Control": "no-cache",
         "Origin": origin,
     }
+       
+       print("Dynamic Headers", HEADERS)
        return HEADERS
+
+generateHeaders()
