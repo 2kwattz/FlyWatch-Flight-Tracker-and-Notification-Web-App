@@ -123,18 +123,13 @@ REFERER_OBJECTS = [
     {"url": "https://www.ecosia.org/search?q={query}", "domain": "https://www.ecosia.org"},
 ]
 
-REFERER_OBJECTS = [
-    {"url": "https://www.bing.com/search?q={query}", "domain": "https://www.bing.com"},
-    {"url": "https://www.google.com/search?q={query}", "domain": "https://www.google.com"},
-    {"url": "https://search.yahoo.com/search?p={query}", "domain": "https://search.yahoo.com"},
-    {"url": "https://duckduckgo.com/?q={query}", "domain": "https://duckduckgo.com"},
-    {"url": "https://www.ecosia.org/search?q={query}", "domain": "https://www.ecosia.org"},
-]
-
 def weighted_random_choice(array):
     """Helper for selecting random elements."""
     return random.choice(array)
 
+# --------------------------------------------
+# Generate Search Query for Http Header Referer
+# --------------------------------------------
 
 def generate_search_query():
     """
@@ -157,6 +152,11 @@ def generate_search_query():
     search_term = search_term.replace(" ", "+")
     print(f"Generated Search Query: {search_term}")
     return search_term
+
+
+# --------------------------------------------
+# ASCII Header when the script starts up
+# -------------------------------------------- 
 
 def print_stylized_header():
     # Green border escape code
@@ -216,3 +216,5 @@ def generateHeaders():
        return HEADERS
 
 generateHeaders()
+
+
