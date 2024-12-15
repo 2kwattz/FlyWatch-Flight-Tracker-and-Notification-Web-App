@@ -13,6 +13,25 @@ from twilio.twiml.voice_response import VoiceResponse
 import datetime
 
 # --------------------------------------------
+# Twilio API Credentials for VoIP Call Alerts
+# --------------------------------------------
+
+# Description:
+# The Twilio API credentials power the VoIP call alert functionality within your flight tracker system, ensuring critical updates 
+# reach users promptly. These credentials enable integration with Twilio's robust communication platform, allowing for seamless
+#  real-time voice notifications.
+
+account_sid = ""
+account_token = ""
+alert_number = "+12184329666"
+
+alert_radius = 150 # (In Miles)
+
+
+
+
+
+# --------------------------------------------
 # Bot Evading Tactics
 # --------------------------------------------
 
@@ -86,19 +105,30 @@ current_month_number = today.month
 current_month_name = today.strftime("%B")  # Full month name
 current_year = today.year
 
-
 # --------------------------------------------
 # Aircraft Registrations 
 # --------------------------------------------
 
-C17Registrations = ['VUAUA','VUAUB''VUAUC','VUAUD','VUAUE','VUAUF','VUAUG','VUAUH','VUAUI','VUAUJ','VUAUK','VUAUL']
+C17Registrations = ['VUAUA','VUAUB','VUAUC','VUAUD','VUAUE','VUAUF','VUAUG','VUAUH','VUAUI','VUAUJ','VUAUK']
 
-MixHexs = [{"CA-7106": "8016e5"},{"K5012":"8002f6"},{'VUAIL':"800e23"}]
+# MixHexs = [{"CA-7106": "8016e5"},{"K5012":"8002f6"},{'VUAIL':"800e23"}]
+MixHexs = [{"CA-7106": "8016e5"}, {"K5012": "8002f6"}, {'VUAIL':"800e23"}]
+
 
 C295Hex = [{"CA-7106": "8016e5"}]
 C130Hexs = [{'VUAIL':"800e23"}]
-P8IHexs = [{'IN329':"800E8A","IN328":"800E89"},{"IN327":"800313"},{"IN326":"800312"}]
+P8IHexs = [{'IN329':"800E8A"},{"IN328":"800E89"},{"IN327":"800313"},{"IN326":"800312"},{"IN325":"800311"},
+{"IN324":"800310"},{"IN323":"80030F"},{"IN322":"80030E"},{"IN321":"80030D"},{"IN320":"80030C"}]
 B737IndiaHexs = [{"K5012":"8002f6"}]
+
+IAFPrivateJetsHexs = [{"VUAVV":"385b0ec1"}]
+C17Hexs = [{"VUAUA":"80078E"},{"VUAUB":"80078F"},{"VUAUC":"800790"},{"VUAUD":"800791"},{"VUAUE":"800792"},{"VUAUF":"800793"},
+{"VUAUG":"800794"},{"VUAUH":"800795"},{"VUAUI":"800796"},{"VUAUJ":"800797"},{"VUAUK":"800E63"},{"VUAUL":"8003C1"}]
+An32Hexs = [{"VUMPG":"385aaf10"},{"VUDXD":"385b3e9e"}]
+IL76Hexs = [{"K-2663":"8002D7"},{"K-2661":"8002D5"},{"K-2665":"8002D9"},{"KI2664":"8002D8"},
+{"KI2666":"8002DA"},{"KI2878":"8002DB"},{"K-2879":"8002DC"}]
+JaguarsHex = [{"JM255":"83F255"}]
+AwacsHex = [{"VUAUM":"8003C1"},{"VTSCO":"8004FD"}]
 
 testHexC295ADSB = "https://globe.adsbexchange.com/?icao=8016e5"
 
@@ -113,7 +143,7 @@ testHexC295ADSB = "https://globe.adsbexchange.com/?icao=8016e5"
 # making bot detection harder and improving query versatility by simulating varied 
 # search behaviors and contexts.
 
-core_keywords = ["C-17", "military aircraft", "aircraft", "Globemaster", "C17 Globemaster", "Jet", "Indian Air Force", "Flight", "IAF", "C17", "Transport Plane"]
+core_keywords = ["C-17", "military aircraft", "Indian military aircrafts", "Navy","aircraft", "Globemaster", "C17 Globemaster", "Jet", "Indian Air Force", "Flight", "IAF", "C17", "Transport Plane"]
 intent_modifiers = ["registration", "tracking", "monitoring", "flightpath", "movements", "air traffic", "track", "airspace", "update"]
 time_modifiers = ["this week", "today", "history", "last 24 hours", "recent", "yesterday", datetime.datetime.now().strftime("%B"), str(datetime.datetime.now().year), "24 hours"]
 location_keywords = ["Near Me", "India", "Bharat", "Gujarat", "Asia", "Tamil Nadu", "Jammu", "Kashmir", "Ladakh", "Rajasthan", "Kerala", "United States", "US"]
@@ -200,7 +230,6 @@ def get_random_referer_and_origin():
     selected = random.choice(REFERER_OBJECTS)
     referer_url = selected["url"]  # URL for Referer
     origin_domain = selected["domain"]  # Domain for Origin
-
     print(f"Random HTTPS Header Referer & Origin Generated\n")
     print("Random User Agent String Generated\n")
     return referer_url, origin_domain
@@ -210,12 +239,14 @@ def get_random_referer_and_origin():
 def generateHeaders():       
        referer, origin = get_random_referer_and_origin()
        query = generate_search_query()
+       
        selected_referer_template = random.choice(REFERER_OBJECTS)
        referer_url = selected_referer_template["url"].replace("{query}", query)
+
+       print("referer_url", referer_url)
        HEADERS = {
-        # "User-Agent": random.choice(USER_AGENTS),
-        # "Referer": referer_url,  # Randomize the Referer
-        # "Accept-Language":  # Coz I need english
+        "User-Agent": random.choice(USER_AGENTS),
+        "Referer": referer_url,  # Randomize the Referer
         "Accept-Language": random.choice(["en-US,en;q=0.9", "en-GB,en;q=0.8", "en-AU,en;q=0.7"]),
         "DNT": str(random.choice([0,1])), # DNT Really Doesnt matter
         "Upgrade-Insecure-Requests": str(random.choice([0,1])),
@@ -244,13 +275,13 @@ def dataScrapper():
  
         # Navigate to the target website
         # page.goto('https://www.airnavradar.com/data/flights/VUAUA',wait_until='load',timeout=120000)
-        page.goto(testHexC295ADSB, wait_until="load")
+        page.goto(testHexC295ADSB, wait_until="load",timeout=120000)
         # page.wait_for_load_state('networkidle', timeout=60000)
 
         page.wait_for_selector("#selected_position")
 
         selected_position_text = page.locator("#selected_position").inner_text()
-        
+        time.sleep(800)
         # Print the extracted text
         print(f"C295 CA-710 Position IN LAT LONG: {selected_position_text}")
 
