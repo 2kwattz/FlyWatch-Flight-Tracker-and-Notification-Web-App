@@ -3,7 +3,7 @@ import random
 import json
 import time
 from playwright.sync_api import sync_playwright
-from playwright_stealth import stealth_async
+from playwright_stealth import stealth_sync
 import pytz
 from datetime import datetime
 import math
@@ -11,6 +11,7 @@ import os
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 import datetime
+
 
 
 # --------------------------------------------
@@ -164,7 +165,7 @@ def print_stylized_header():
     RESET = "\033[0m"
     
     border = GREEN + "+" + "=" * 70 + "+" + RESET
-    title = "🚀 C-17 Aircraft Movement Detection Script 🚀"
+    title = "🚀 FlyWatch Aircraft Movement Detection System 🚀"
     author = "Code by Roshan Bhatia"
     ig_handle = "IG: @2kwattz"
     
@@ -177,6 +178,7 @@ def print_stylized_header():
     print(f"| {ig_handle.center(70)} |")
     print(border)
     print("\n")
+    time.sleep(3)
 
 
 print_stylized_header()
@@ -186,7 +188,7 @@ def get_random_referer_and_origin():
     referer_url = selected["url"]  # URL for Referer
     origin_domain = selected["domain"]  # Domain for Origin
 
-    print(f"Random HTTPS Header Referer & Origin Generated {referer_url} {origin_domain}.\n")
+    print(f"Random HTTPS Header Referer & Origin Generated\n")
     print("Random User Agent String Generated\n")
     return referer_url, origin_domain
 
@@ -212,9 +214,34 @@ def generateHeaders():
         "Origin": origin,
     }
        
-       print("Dynamic Headers", HEADERS)
+       print("Dynamic Headers", HEADERS,"\n")
        return HEADERS
 
-generateHeaders()
+
+
+def dataScrapper():
+    httpHeader = generateHeaders()
+    with sync_playwright() as p:
+        # Launch a headless browser
+        browser = p.chromium.launch(headless=False,
+         args=['--use-gl=egl'])  # Set headless=False for visible scraping
+        page = browser.new_page()
+
+        # Apply stealth settings to the page
+        # stealth_sync(page)
+
+        page.set_extra_http_headers(httpHeader)
+
+        # Navigate to the target website
+        page.goto('https://www.airnavradar.com/data/flights/VUAUA',wait_until='load',timeout=120000)
+        page.wait_for_load_state('networkidle', timeout=60000)
+
+    
+
+        # Close the browser
+        browser.close()
+
+dataScrapper()
+
 
 
