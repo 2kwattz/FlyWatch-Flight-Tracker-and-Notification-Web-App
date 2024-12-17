@@ -11,6 +11,7 @@ import os
 from twilio.rest import Client
 from twilio.twiml.voice_response import VoiceResponse
 import datetime
+import math
 
 # --------------------------------------------
 # Twilio API Credentials for VoIP Call Alerts
@@ -25,10 +26,7 @@ account_sid = ""
 account_token = ""
 alert_number = "+12184329666"
 
-alert_radius = 150 # (In Miles)
-
-
-
+alert_radius = 150 # Defalut radius (In Miles)
 
 
 # --------------------------------------------
@@ -105,6 +103,50 @@ current_month_number = today.month
 current_month_name = today.strftime("%B")  # Full month name
 current_year = today.year
 
+
+# --------------------------------------------
+#  Calculate Distance Between Two Geographical
+#  Points and Check if Within Radius
+# --------------------------------------------
+
+# Description:
+#This function calculates the distance between two geographical coordinates (latitude and longitude)
+#using the Haversine formula and checks if the distance is within a given radius (in miles).
+#The function returns True if the distance is within the specified radius, otherwise False.
+
+def is_within_radius(lat1, lon1, lat2, lon2, radius):
+    # Haversine formula to calculate the distance between two points
+    def to_radians(degree):
+        return degree * (math.pi / 180)
+
+    R = 3958.8  # Radius of Earth in miles (mean radius)
+    lat1_rad = to_radians(lat1)
+    lon1_rad = to_radians(lon1)
+    lat2_rad = to_radians(lat2)
+    lon2_rad = to_radians(lon2)
+
+    delta_lat = lat2_rad - lat1_rad
+    delta_lon = lon2_rad - lon1_rad
+
+    a = (math.sin(delta_lat / 2) ** 2 +
+         math.cos(lat1_rad) * math.cos(lat2_rad) *
+         math.sin(delta_lon / 2) ** 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c  # Distance in miles
+
+    # Check if the distance is within the radius
+    return distance <= radius
+
+# Example usage
+lat1 = 28.7041  # Latitude of point 1 (e.g., New Delhi)
+lon1 = 77.1025  # Longitude of point 1
+lat2 = 19.0760  # Latitude of point 2 (e.g., Mumbai)
+lon2 = 72.8777  # Longitude of point 2
+radius = 500    # Radius in miles
+
+result = is_within_radius(lat1, lon1, lat2, lon2, radius)
+
 # --------------------------------------------
 # Aircraft Registrations 
 # --------------------------------------------
@@ -117,20 +159,64 @@ MixHexs = [{"CA-7106": "8016e5"}, {"K5012": "8002f6"}, {'VUAIL':"800e23"}]
 
 C295Hex = [{"CA-7106": "8016e5"}]
 C130Hexs = [{'VUAIL':"800e23"}]
-P8IHexs = [{'IN329':"800E8A"},{"IN328":"800E89"},{"IN327":"800313"},{"IN326":"800312"},{"IN325":"800311"},
-{"IN324":"800310"},{"IN323":"80030F"},{"IN322":"80030E"},{"IN321":"80030D"},{"IN320":"80030C"}]
-B737IndiaHexs = [{"K5012":"8002f6"}]
+P8IHexs = [
+  {"Callsign": "IN329", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800E8A", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN328", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800E89", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN327", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800313", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN326", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800312", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN325", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800311", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN324", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800310", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN323", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "80030F", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN322", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "80030E", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN321", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "80030D", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN320", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "80030C", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN330", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800E8B", "isNearUserSpecifiedCity": False},
+  {"Callsign": "IN331", "AircraftName": "P8i", "AircraftOperator": "IndianNavy", "HexCode": "800E8C", "isNearUserSpecifiedCity": False}
+]
+
+# B737IndiaHexs = [{"K5012":"8002f6"}]
 
 IAFPrivateJetsHexs = [{"VUAVV":"385b0ec1"}]
-C17Hexs = [{"VUAUA":"80078E"},{"VUAUB":"80078F"},{"VUAUC":"800790"},{"VUAUD":"800791"},{"VUAUE":"800792"},{"VUAUF":"800793"},
-{"VUAUG":"800794"},{"VUAUH":"800795"},{"VUAUI":"800796"},{"VUAUJ":"800797"},{"VUAUK":"800E63"},{"VUAUL":"8003C1"}]
-An32Hexs = [{"VUMPG":"385aaf10"},{"VUDXD":"385b3e9e"}]
-IL76Hexs = [{"K-2663":"8002D7"},{"K-2661":"8002D5"},{"K-2665":"8002D9"},{"KI2664":"8002D8"},
-{"KI2666":"8002DA"},{"KI2878":"8002DB"},{"K-2879":"8002DC"}]
-JaguarsHex = [{"JM255":"83F255"}]
+C17Hexs = [
+  {"Callsign": "VUAUA", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "80078E", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUB", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "80078F", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUC", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800790", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUD", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800791", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUE", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800792", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUF", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800793", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUG", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800794", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUH", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800795", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUI", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800796", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUJ", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800797", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUK", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "800E63", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUAUL", "AircraftName": "C17", "AircraftOperator": "IndianAirForce", "HexCode": "8003C1", "isNearUserSpecifiedCity": False}
+]
+
+
+
+IL76Hexs = [
+  {"Callsign": "K-2663", "AircraftName": "IL76", "AircraftOperator": "IndianAirForce", "HexCode": "8002D7", "isNearUserSpecifiedCity": False},
+  {"Callsign": "K-2661", "AircraftName": "IL76", "AircraftOperator": "IndianAirForce", "HexCode": "8002D5", "isNearUserSpecifiedCity": False},
+  {"Callsign": "K-2665", "AircraftName": "IL76", "AircraftOperator": "IndianAirForce", "HexCode": "8002D9", "isNearUserSpecifiedCity": False},
+  {"Callsign": "KI2664", "AircraftName": "IL76", "AircraftOperator": "IndianAirForce", "HexCode": "8002D8", "isNearUserSpecifiedCity": False}
+]
+
+
+JaguarsHex = [
+  {"Callsign": "JM255", "AircraftName": "Jaguar", "AircraftOperator": "IndianAirForce", "HexCode": "83F255", "isNearUserSpecifiedCity": False}
+]
+
 AwacsHex = [{"VUAUM":"8003C1"},{"VTSCO":"8004FD"}]
 
+An32Hexs = [
+  {"Callsign": "VUMPG", "AircraftName": "An32", "AircraftOperator": "IndianAirForce", "HexCode": "385aaf10", "isNearUserSpecifiedCity": False},
+  {"Callsign": "VUDXD", "AircraftName": "An32", "AircraftOperator": "IndianAirForce", "HexCode": "385b3e9e", "isNearUserSpecifiedCity": False}
+]
 testHexC295ADSB = "https://globe.adsbexchange.com/?icao=8016e5"
+
+
+
+
 
 # --------------------------------------------
 # Keyword Configuration Data
