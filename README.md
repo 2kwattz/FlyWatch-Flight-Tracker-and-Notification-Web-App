@@ -1,6 +1,6 @@
 # FlyWatch-Flight-Tracker-and-Notification-Web-App
 
-Track any fight with the help of ICAO Code. Alpha check Bearing, Range and Altitude on yourfingertips. Get Call and Email based notification for your favourite flights for Civilian and MIlitary aircrafts such as C17s, il76s etc appearing within custom radius of your city for our fellow planespotters.
+Track any fight with the help of Mode-S (Hex) , Registration number or Callsign. Get Alpha check Bearing, Range and Altitude on yourfingertips. Get Call and Buzzer based notification for your favourite flights for Civilian and Military aircrafts such as C17s, il76s etc appearing within custom radius of your city for our fellow planespotters.
 
 Work on Python CLI based script will start first as a prototype for the web application in cli scripts folder.
 
