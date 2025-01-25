@@ -1,6 +1,5 @@
 # FlyWatch-Flight-Tracker-and-Notification-Web-App
 
-## UNDER DEVELOPMENT
 Track any fight with the help of ICAO Code. Alpha check Bearing, Range and Altitude on yourfingertips. Get Call and Email based notification for your favourite flights for Civilian and MIlitary aircrafts such as C17s, il76s etc appearing within custom radius of your city for our fellow planespotters.
 
 Work on Python CLI based script will start first as a prototype for the web application in cli scripts folder.
@@ -31,3 +30,11 @@ Prepare for the Lima Oscar November Golf End of Time. Over.
 ####  Home Server + Static IP for Port forwarding
 
 #### Python : For CLI based testing version of the core functionalities
+
+### Core Modules of the Project ###
+The application is divided into 4 Core modules
+1. The Python/Django Server
+2. Django based APIs and few web views to facilate the user with the current status of the server
+3. React Native based mobile application to set user's location, check server status, flight tracker status,  server logs , login and other functionalities
+4. ESP8266 Microcontroller programmed in C++ for Buzzer alert when any C17 comes within 250miles of your city
+
