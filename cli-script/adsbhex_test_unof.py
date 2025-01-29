@@ -386,14 +386,14 @@ def generateHeaders():
 # Shared list to hold the responses
 
 def capture_response(response, P8IHexs):
-    # Check if the response is from the API you're interested in
+
     if "api.adsb.lol" in response.url:
         print(f"Response URL: {response.url}")
-        print(f"Response Status: {response.status}")  # Ensure this is not overwritten by an int somewhere
+        print(f"Response Status: {response.status}") 
         try:
-            # Get JSON content from the response
+            
             json_data = response.json()  
-            # Process response data as soon as it arrives
+           
             for hex in P8IHexs:
                 if hex['HexCode'] in response.url:
                     print(f"Processing for HexCode: {hex['HexCode']}")
@@ -402,13 +402,13 @@ def capture_response(response, P8IHexs):
             print(f"Failed to parse JSON: {str(e)}")
 
 def process_response_data(json_data, hex_data):
-    # Place the logic to apply conditions on the response data here
+
     print(f"Processing response data for {hex_data['HexCode']}: {json.dumps(json_data, indent=2)}")
-    # Example: Apply a condition based on some attribute in the response
+
     print("JSON DATA.AC", json_data["ac"])
     if 'icao' in json_data:
         print(f"Aircraft ICAO: {json_data['icao']} for HexCode: {hex_data['HexCode']}")
-    # Add further conditions here based on your needs
+
 
 def dataScrapper():
     httpHeader = generateHeaders()
@@ -427,7 +427,7 @@ def dataScrapper():
             aircraftHex = hex['HexCode']
             print(f"Navigating to: https://api.adsb.lol/v2/icao/{aircraftHex}")
             page.goto(f"https://api.adsb.lol/v2/icao/{aircraftHex}", wait_until="load", timeout=120000)
-            time.sleep(5)  # Adjust timing based on response times and requirements
+            time.sleep(5)  
 
         # Close the browser
         browser.close()
