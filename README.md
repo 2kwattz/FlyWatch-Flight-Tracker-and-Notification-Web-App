@@ -29,6 +29,8 @@ Prepare for the Lima Oscar November Golf End of Time. Over.
 #### SQLLite Database
 ####  Home Server + Static IP for Port forwarding
 
+#### Future prospects include a custom ADSB Reciever Set with 1090 MHz Antenna and getting local data directly from SDR
+
 #### Python : For CLI based testing version of the core functionalities
 
 ### Core Modules of the Project ###
