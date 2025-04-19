@@ -53,5 +53,7 @@ The ESP8266 Microcontroller which is sending request to the python/django server
 
 The React Native App has the same set of endpoints with few additional ones to track the server status, flight tracking status, system logs and server flight tracking logs. A login system has been implemented but as of now its quite buggy, Once the work is completed, the user would be able to set its own aircrafts for flight alerts, its own location and many more functionalities.
 
+In an additional update, Using multiple residential ips is being considered to avoid rate limiting issue which slows down the tracking process.
+
  
 
